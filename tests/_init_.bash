@@ -31,11 +31,21 @@ declare TEST_SEDSCRIPT
 declare TESTS_ROOT
 
 
+##  Loader for bats libraries
+#
+load_lib() {
+  local \
+    name="${1}"
+
+  load "libs/${name}/load"
+}
+
 ##  Configure fixtures based on type of testing
 #
 #   @param  $1  string  'integration, unit'
 #
 fixtures() {
+
   local \
     fixture_setup="${1}" \
     script='templar.bash' \
@@ -85,6 +95,7 @@ setup() {
 #   @param  $3  string  name of templates directory
 #
 unit() {
+
   local \
     script="${1}" \
     dir_vars="${2}" \

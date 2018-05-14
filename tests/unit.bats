@@ -19,10 +19,11 @@
 #=============================================================
 
 load '_init_'
+fixtures 'unit'
+load_lib 'bats-support'
+load_lib 'bats-assert'
 load 'helper'
 
-# load the unit tests functions
-fixtures 'unit'
 
 ##  Make sure testing framework files exist
 #

@@ -214,7 +214,7 @@ function load_vars_files {
   local \
     globals=${1} \
     dir="${DIR_VARS}" \
-    code=0
+    code=1
 
   # parse globals that are supplied as csv
   if [[ -n ${globals} && ! -f "${globals}" ]] ; then
@@ -222,22 +222,23 @@ function load_vars_files {
   fi
 
   for file in ${globals[@]} ; do
-
     path="${dir}/${file}"
 
     if [[ -f "${path}" ]] ; then
       source "${path}"
+      typeset -i code=0
     elif [[ -f "${file}" ]] ; then
       source "${file}"
-    else
-      warning "missing variables file: '${file}'"
-      TASK='syntax'
-      code=1
+      typeset -i code=0
     fi
-
   done
 
-  return ${code}
+  if [[ ${code} -gt 0 ]] ; then
+    warning "missing variables file: '${globals}'"
+    TASK='syntax'
+  fi
+
+  return ${code}	#	Only sends 0 if a file has been found and sourced.
 }
 
 ##  Creates output file from a template using SED
